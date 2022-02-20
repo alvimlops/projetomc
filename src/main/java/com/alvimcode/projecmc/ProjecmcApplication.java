@@ -9,12 +9,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.alvimcode.projecmc.domain.Categoria;
 import com.alvimcode.projecmc.domain.Cidade;
+import com.alvimcode.projecmc.domain.Cliente;
+import com.alvimcode.projecmc.domain.Endereco;
 import com.alvimcode.projecmc.domain.Estado;
 import com.alvimcode.projecmc.domain.Produto;
+import com.alvimcode.projecmc.domain.enums.TipoCliente;
 import com.alvimcode.projecmc.repositories.CategoriaRepository;
 import com.alvimcode.projecmc.repositories.CidadeRepository;
+import com.alvimcode.projecmc.repositories.ClienteRepository;
+import com.alvimcode.projecmc.repositories.EnderecoRepository;
 import com.alvimcode.projecmc.repositories.EstadoRepository;
 import com.alvimcode.projecmc.repositories.ProdutoRepository;
+
 
 @SpringBootApplication
 public class ProjecmcApplication implements CommandLineRunner {
@@ -27,6 +33,10 @@ public class ProjecmcApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private  CidadeRepository  cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjecmcApplication.class, args);
@@ -65,6 +75,17 @@ public class ProjecmcApplication implements CommandLineRunner {
 		
 		 estadoRepository.saveAll( Arrays.asList(est1, est2));
 		 cidadeRepository.saveAll( Arrays.asList(c1, c2, c3));
+		 
+		 Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "54903874249", TipoCliente.PESSOAFISICA);
+		 cli1.getTelefones().addAll(Arrays.asList("66426328", "5674349343"));
+		 
+		 Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "jardim", "54637438", cli1, c1);
+		 Endereco e2 = new Endereco(null, "Av Matos", "105", "Sala 800", "centro", "4637438", cli1, c2);
+		 
+		 cli1.getEndereco().addAll(Arrays.asList(e1, e2));
+		 
+		 clienteRepository.saveAll(Arrays.asList(cli1));
+		 enderecoRepository.saveAll(Arrays.asList(e1, e2));
 	}
 
 }
