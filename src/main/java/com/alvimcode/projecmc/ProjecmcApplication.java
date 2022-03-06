@@ -13,6 +13,7 @@ import com.alvimcode.projecmc.domain.Cidade;
 import com.alvimcode.projecmc.domain.Cliente;
 import com.alvimcode.projecmc.domain.Endereco;
 import com.alvimcode.projecmc.domain.Estado;
+import com.alvimcode.projecmc.domain.ItemPedido;
 import com.alvimcode.projecmc.domain.Pagamento;
 import com.alvimcode.projecmc.domain.PagamentoComBoleto;
 import com.alvimcode.projecmc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.alvimcode.projecmc.repositories.CidadeRepository;
 import com.alvimcode.projecmc.repositories.ClienteRepository;
 import com.alvimcode.projecmc.repositories.EnderecoRepository;
 import com.alvimcode.projecmc.repositories.EstadoRepository;
+import com.alvimcode.projecmc.repositories.ItemPedidoRepository;
 import com.alvimcode.projecmc.repositories.PagamentoRepository;
 import com.alvimcode.projecmc.repositories.PedidoRepository;
 import com.alvimcode.projecmc.repositories.ProdutoRepository;
@@ -49,6 +51,8 @@ public class ProjecmcApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjecmcApplication.class, args);
@@ -114,6 +118,19 @@ public class ProjecmcApplication implements CommandLineRunner {
 		 
 		 pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		 pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		 
+		 ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		 ItemPedido ip2 = new ItemPedido(ped1, p1, 0.00, 2, 80.00);
+		 ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		 
+		 ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		 ped1.getItens().addAll(Arrays.asList(ip3));
+		 
+		 p1.getItens().addAll(Arrays.asList(ip1));
+		 p2.getItens().addAll(Arrays.asList(ip3));
+		 p3.getItens().addAll(Arrays.asList(ip2));
+		 
+		 itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 		 
 		 
 	}
