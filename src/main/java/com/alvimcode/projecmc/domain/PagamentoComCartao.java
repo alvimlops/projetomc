@@ -1,7 +1,10 @@
 package com.alvimcode.projecmc.domain;
 
+import javax.persistence.Entity;
+
 import com.alvimcode.projecmc.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComCartao  extends Pagamento {
 	private static final long serialVersionUID = 1L; 
 	
